@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "__38-[AppDelegate getMovieImageData:done:]_block_invoke:AppDelegate.m">
+      </ContextState>
+      <ContextState
+         contextName = "__44-[AppDelegate searchMoviesData:filter:done:]_block_invoke:AppDelegate.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController collectionView:cellForItemAtIndexPath:]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[result objectForKey:@&quot;poster_path&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[CategoryViewController viewDidLoad]:CategoryViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self viewControllers]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController viewDidLoad]:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "__29-[ViewController viewDidLoad]_block_invoke:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[MovieDetailSegue perform]:MovieDetailSegue.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "CGPointMake( self.sourceViewController.view.center.x, 0-self.destinationViewController.view.center.y)">
+            </PersistentString>
+            <PersistentString
+               value = "CGPointMake(self.sourceViewController.view.center.x, self.destinationViewController.view.center.y)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__44-[AppDelegate searchMoviesData:filter:done:]_block_invoke.47:AppDelegate.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "strUrl">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
