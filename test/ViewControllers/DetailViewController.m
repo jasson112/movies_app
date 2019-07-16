@@ -38,7 +38,7 @@
                 self.image.image = result;
             });
         }];
-    }
+    } 
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButton:)];
     self.navigationItem.hidesBackButton = YES;

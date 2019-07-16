@@ -62,7 +62,7 @@
         [moviesTask resume];
     });
 }
-
+ 
 - (void)getMoviesData:(NSString *)filter done:(void (^)(NSDictionary *))block {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //fetch data from cache
@@ -85,7 +85,7 @@
             }];
             [moviesTask resume];
         }else{
-            //if the data exist in cache is returned if not the block is re called until the data is getted 
+            //if the data exist in cache is returned if not the block is re called until the data is getted
             NSError *error = nil;
             jsonArray = [NSJSONSerialization JSONObjectWithData:movieData options:kNilOptions error:&error];
             if(error != nil){

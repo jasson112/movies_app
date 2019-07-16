@@ -4,7 +4,7 @@
 //
 //  Created by jasson on 7/14/19.
 //  Copyright © 2019 gability. All rights reserved.
-//
+// 
 
 #import "CategoryViewController.h"
 #import "ViewController.h"
@@ -28,6 +28,7 @@
     upcoming.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Upcoming" image:nil tag:0];
     upcoming.filterBy = @"upcoming";
     [newArray addObject:upcoming];
+
     [self setViewControllers:newArray animated:NO];
     
 }
