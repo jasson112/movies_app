@@ -85,7 +85,7 @@
             }];
             [moviesTask resume];
         }else{
-            //if the data exist in cache is returned if not the block is re called until the data is getted
+            //if the data exist in cache is returned if not the block is re called until the data is getted 
             NSError *error = nil;
             jsonArray = [NSJSONSerialization JSONObjectWithData:movieData options:kNilOptions error:&error];
             if(error != nil){
