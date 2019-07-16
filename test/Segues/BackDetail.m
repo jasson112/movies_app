@@ -10,30 +10,26 @@
 
 @implementation BackDetail
 - (void) perform{
-    //self.destinationViewController.view.center = CGPointMake( self.sourceViewController.view.center.x, 0-self.destinationViewController.view.center.y);
+    //create a screeshot form the current view that this make an user the ilusion than the view is still here but not
     UIGraphicsBeginImageContext(self.sourceViewController.view.bounds.size);
+    //adding the view of moview list in back this make a illusion of the movies view is in background like a modal
     [self.sourceViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     UIImageView *copy = [[UIImageView alloc] initWithImage:viewImage];
     [[UIApplication sharedApplication].keyWindow addSubview:copy];
-    //[self.sourceViewController.view addSubview:self.destinationViewController.view];
-    //copy.transform = CGAffineTransformMakeScale(1.0, 1.0);
     
     [self.sourceViewController.navigationController popViewControllerAnimated:NO];
     [UIView animateWithDuration:0.4
                      animations:^{
-                         //copy.center = CGPointMake( copy.center.x, 0-copy.center.y);
+                         //transform the screenshoot
                          CGAffineTransform transform = copy.transform;
                          transform = CGAffineTransformScale(transform, 0.1, 0.1);
                          copy.transform = transform;
-                         
                      }
                      completion:^(BOOL finished){
+                         //remove the screenshoot form the upper view
                          [copy removeFromSuperview];
-                         //[self.sourceViewController.navigationController popViewControllerAnimated:NO];
-                         //[self.sourceViewController.navigationController presentViewController:[self destinationViewController]  animated:NO completion:nil];
-                         //[[self sourceViewController] presentViewController:[self destinationViewController] animated:NO completion:nil];
                      }];
 }
 @end

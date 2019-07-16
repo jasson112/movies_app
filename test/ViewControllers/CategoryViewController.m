@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // Create viewcontrollers referenced from movie list controller, create the categories and set filter for APi request by category
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     NSMutableArray* newArray = [NSMutableArray arrayWithArray:self.viewControllers];
     ViewController *popular = [storyboard instantiateViewControllerWithIdentifier:@"movieViewController"];
@@ -28,7 +28,6 @@
     upcoming.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Upcoming" image:nil tag:0];
     upcoming.filterBy = @"upcoming";
     [newArray addObject:upcoming];
-    //[newArray removeObjectAtIndex:0];
     [self setViewControllers:newArray animated:NO];
     
 }

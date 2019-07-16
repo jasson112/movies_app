@@ -31,6 +31,7 @@
     detail.text = description;
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     if(![imageUrl isKindOfClass:[NSNull class]]){
+        //fetch data of img from url
         [self.appDelegate getMovieImageData:imageUrl done:^(UIImage *result){
             dispatch_async(dispatch_get_main_queue(), ^{
                 // code here
@@ -42,6 +43,7 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButton:)];
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = item;
+    //cehcks if the movie has a video and then shows the button
     [self.appDelegate getVideoData:self.myId done:^(NSString *result){
         dispatch_async(dispatch_get_main_queue(), ^{
             // code here
@@ -55,10 +57,12 @@
 }
 
 - (void)backButton:(id)sender {
+    //perform custom segue for back to list
     [self performSegueWithIdentifier:@"backToMovies" sender:self.parentViewController];
 }
 
 - (void)viewVideo:(id)sender {
+    //send the user to youtube to view the trailer
     NSURL* url = [[NSURL alloc] initWithString: self.videoUrl];
     [[UIApplication sharedApplication] openURL: url options:@{} completionHandler:nil];
 }

@@ -17,6 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //override background color
     [self window].backgroundColor = [UIColor whiteColor];
 
     return YES;
@@ -31,6 +32,7 @@
         jsonArray = [NSJSONSerialization JSONObjectWithData:movieData options:kNilOptions error:&error];
         NSMutableArray *searchResult = [[NSMutableArray alloc] init];
         if(error == nil){
+            //checks if the query is in local and added it to an array
             NSDictionary *myDict = (NSDictionary *) jsonArray;
             if([query length] == 0){
                 block([myDict objectForKey:@"results"]);
@@ -40,19 +42,18 @@
                 NSString *name = (NSString *)[item objectForKey:@"title"];
                 NSRange range = [[name lowercaseString] rangeOfString:[query lowercaseString]];
                 if ( range.location != NSNotFound ){
-                    NSLog(@"Found Someting");
                     [searchResult addObject:item];
                 }
             }
         }
-        
+        //check if more result are in intrenet
         NSURLSessionConfiguration *defaultSessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultSessionConfiguration];
         NSString * strUrl = [NSString stringWithFormat:@"https://api.themoviedb.org/3/search/movie?api_key=ff17be5f33ecef90e365ed15bab2eacc&language=en-US&query=%@&page=1&include_adult=false&region=us", query];
         NSURL *url = [NSURL URLWithString:strUrl];
         
         NSURLSessionDataTask *moviesTask = [defaultSession dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-            // 4: Handle response here
+            //adding the remote data in the array and returnet it into callback
             jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
             NSArray *results = (NSArray *) [jsonArray objectForKey:@"results"];
             [searchResult addObjectsFromArray:results];
@@ -64,19 +65,19 @@
 
 - (void)getMoviesData:(NSString *)filter done:(void (^)(NSDictionary *))block {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //fetch data from cache
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
         NSData *movieData = [standardUserDefaults objectForKey:[NSString stringWithFormat:@"movies_%@", filter]];
         __block NSDictionary *jsonArray = [[NSDictionary alloc] init];
         if(movieData == nil){
-            //Perform your tasks that your application requires
+            //if not daata then try getting from internet
             NSURLSessionConfiguration *defaultSessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
             NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultSessionConfiguration];
-            //NSString * strUrl = [NSString stringWithFormat:@"https://api.themoviedb.org/3/discover/movie?api_key=ff17be5f33ecef90e365ed15bab2eacc&language=en-US&sort_by=%@&include_adult=false&include_video=true&page=1", filter];
             NSString * strUrl = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@?api_key=ff17be5f33ecef90e365ed15bab2eacc&language=en-US&page=1&region=us", filter];
             NSURL *url = [NSURL URLWithString:strUrl];
             
             NSURLSessionDataTask *moviesTask = [defaultSession dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                // 4: Handle response here
+                //wehn fetch creates a chache data and return the object data as dictionary
                 [standardUserDefaults setObject:data forKey:[NSString stringWithFormat:@"movies_%@", filter]];
                 [standardUserDefaults synchronize];
                 jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
@@ -84,6 +85,7 @@
             }];
             [moviesTask resume];
         }else{
+            //if the data exist in cache is returned if not the block is re called until the data is getted
             NSError *error = nil;
             jsonArray = [NSJSONSerialization JSONObjectWithData:movieData options:kNilOptions error:&error];
             if(error != nil){
@@ -101,6 +103,7 @@
 
 - (void)getVideoData:(NSString *)theId done:(void (^)(NSString *))block {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //cehck if the movie has a trailer and then return the url without cache storage
         __block NSDictionary *jsonArray = [[NSDictionary alloc] init];
         NSURLSessionConfiguration *defaultSessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         NSURLSession *defaultSession = [NSURLSession sessionWithConfiguration:defaultSessionConfiguration];
@@ -130,12 +133,15 @@
 
 - (void)getMovieImageData:(NSString *)path done:(void (^)(UIImage *))block {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //get iamge from url
         NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
         NSData *imageData = [standardUserDefaults objectForKey:path];
         __block UIImage *downloadedImage = [[UIImage alloc] init];
         if(imageData == nil){
+            //if the image is not in cache
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://image.tmdb.org/t/p/w780/%@", path]];
             NSURLSessionDownloadTask *downloadPhotoTask = [[NSURLSession sharedSession] downloadTaskWithURL:url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                //create a cache and then return as callback the data in an UIimage
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
                 [standardUserDefaults setObject:[NSData dataWithContentsOfURL:location] forKey:path];
                 [standardUserDefaults synchronize];
@@ -144,6 +150,7 @@
             }];
             [downloadPhotoTask resume];
         }else{
+            //if the data exist the UIimage returned in callback
             downloadedImage = [UIImage imageWithData: imageData];
             block(downloadedImage);
         }

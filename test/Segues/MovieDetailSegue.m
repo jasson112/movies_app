@@ -10,19 +10,17 @@
 
 @implementation MovieDetailSegue
 - (void) perform{
-    //self.destinationViewController.view.center = CGPointMake( self.sourceViewController.view.center.x, 0-self.destinationViewController.view.center.y);
+    //Adding the views for the animation
     [self.sourceViewController.view addSubview:self.destinationViewController.view];
     self.destinationViewController.view.transform = CGAffineTransformMakeScale(0.0, 0.0);
     
     [UIView animateWithDuration:0.4
                      animations:^{
                          self.destinationViewController.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-                         
                      }
                      completion:^(BOOL finished){
+                         //hwen the animation ends the view has deleted and the controller itself is showing
                          [self.sourceViewController.navigationController pushViewController:[self destinationViewController] animated:NO];
-                         //[self.sourceViewController.navigationController presentViewController:[self destinationViewController]  animated:NO completion:nil];
-                         //[[self sourceViewController] presentViewController:[self destinationViewController] animated:NO completion:nil];
                      }];
 }
 @end
